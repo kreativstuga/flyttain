@@ -28,9 +28,6 @@ namespace FlyttaIn.Services.Carpool
                 var poolLat = Convert.ToDouble(poolList.Where(x => x.Name == "lat").Single().Value);
                 var poolLon = Convert.ToDouble(poolList.Where(x => x.Name == "lon").Single().Value);
 
-                var latDist = Math.Abs(poolLat - lat);
-                var lonDist = Math.Abs(poolLon - lon);
-
                 double R = 6371;
  
                 double dLat = (Math.PI / 180) * (poolLat - lat);
@@ -38,7 +35,7 @@ namespace FlyttaIn.Services.Carpool
  
                 double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) + Math.Cos( (Math.PI / 180) * (poolLat)) *Math.Cos( (Math.PI / 180) * (lat)) * Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
                 double c = 2 * Math.Asin(Math.Min(1, Math.Sqrt(a)));
-                double d = R * c;
+                double d = Math.Abs(R * c);
 
                 if (d > maxDistance) {
                     maxDistance = d;
