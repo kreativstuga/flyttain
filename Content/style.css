@@ -424,6 +424,9 @@ input[type="password"].input-validation-error {
     display: none;
 }
 
+footer {
+    padding: 10px;
+}
 
 /* =============================================================================
    Non-semantic helper classes

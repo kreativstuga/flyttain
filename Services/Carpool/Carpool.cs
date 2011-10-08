@@ -14,9 +14,9 @@ namespace FlyttaIn.Services.Carpool
             XmlDocument doc = new XmlDocument();
             doc.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/bilpooler.xml");
 
-            XmlNodeList nodeList;
+            //XmlNodeList nodeList;
             XmlNode root = doc.DocumentElement;
-        
+
             double maxDistance = 0.0f;
 
             string name = "";
