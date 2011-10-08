@@ -103,6 +103,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Stop.cs" />
     <Compile Include="Models\TrafficInformation.cs" />
     <Compile Include="Models\Weather.cs" />
