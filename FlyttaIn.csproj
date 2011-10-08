@@ -108,6 +108,7 @@
     <Compile Include="Models\TrafficInformation.cs" />
     <Compile Include="Models\Weather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Carpool\Carpool.cs" />
     <Compile Include="Services\Communications\Communications.cs" />
     <Compile Include="Services\Communications\GoteborgServices.cs" />
     <Compile Include="Services\Communications\TraficInformationService.cs" />
@@ -196,7 +197,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Services\Carpool\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
