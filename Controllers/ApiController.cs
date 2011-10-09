@@ -60,7 +60,18 @@ namespace FlyttaIn.Controllers
             return Json(new { Title = "Test", Content = "Some content" }, JsonRequestBehavior.AllowGet);
         }
 
-        
+        public JsonResult Crime()
+        {
+            //var test = new GoteborgServices().GetGBGLocationToCoord("Tredje Långgatan 13B");
+
+            var crimes = new CrimeServices().GetCrimes(1440, "Västra Götalands Län");
+
+            //var stops = new Communications().GetStops(latitude, longitude);
+
+            //return Json(stops, JsonRequestBehavior.AllowGet);
+
+            return Json(new { Title = "Test", Content = "Some content" }, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }
