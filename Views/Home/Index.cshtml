@@ -109,9 +109,9 @@
         $("#add-place-btn").bind("click", addPlace);
         var searchBox = $("#address-1");
 
-        monkeyPatchAutocomplete();
+        //monkeyPatchAutocomplete();
 
-        bindAutoCompleteEvent(searchBox);
+        //bindAutoCompleteEvent(searchBox);
 
     });
 
@@ -184,9 +184,47 @@
         var boxes = form.find("input[type=text]");
         console.log("boxes: " + boxes.length);
 
-        getCarPools();
+        var searchBox = $("#address-1");
+
+        var location = getCoords(searchBox.val());
+
+        //getByEniro();
+        //getStops();
+        //getCarPools();
+        //getCrimes();
 
         return false;
+    }
+
+    var getCoords = function (place) {
+
+        $.ajax({
+            url: 'http://maps.google.com/maps/geo?q=' + place + '&gl=SE&output=json&v=2&sensor=false&key=ABQIAAAAzAkrOIsv60fbtV-5UlnnJxRUrcFJRfPs1DYZSl5DdA7w5qtvARRv6HblVCIt_AgTSnG3PdPypHTBEQ',
+            type: "GET",
+            dataType: "jsonp",
+            cache: false,
+            success: function (data) {
+
+                if (parseInt(data.Status.code) === 200) {
+                    var cords = data.Placemark[0].Point.coordinates;
+                    var location = { longitude: cords[0], latitude: cords[1] };
+
+                    getStops(location);
+                }
+            }
+        });
+
+    }
+
+    var getStops = function (location) {
+        $.ajax({
+            type: "GET",
+            url: "/api/getStops",
+            dataType: "json",
+            data: location,
+            success: function (response) {
+            }
+        });
     }
 
     var getCarPools = function () {
@@ -198,12 +236,33 @@
             data:{},
             success:function(response){
                 
-                
             }
         });
     }
 
+    var getByEniro = function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/getByEniro",
+            dataType: "json",
+            data: {},
+            success: function (response) {
 
+            }
+        });
+    }
+
+    var getCrimes = function () {
+        
+        $.ajax({
+            type: "GET",
+            url:"/api/getCrimes",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+            }
+        });
+    }
 
 </script>
 

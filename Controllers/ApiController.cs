@@ -34,15 +34,13 @@ namespace FlyttaIn.Controllers
             //return Json(new { SourceName = sourceName, Title = "Test", Content = "Some content" }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult MyLocal()
+        public JsonResult GetNearbyStops(string longitude,string latitude)
         {
             var s = new GoteborgServices();
-            var test = s.GetGBGLocationToCoord("Tredje Långgatan 13B");
 
-            //var stops = new Communications().GetStops(latitude, longitude);
+            //12.0181732, 57.7208731
+            var test = s.GetGBGStopsByCoord(latitude, longitude,10);
 
-            //return Json(stops, JsonRequestBehavior.AllowGet);
-            
             return Json(new { Title = "Test", Content = "Some content" }, JsonRequestBehavior.AllowGet);
         }
 
@@ -57,7 +55,15 @@ namespace FlyttaIn.Controllers
 
             //return Json(stops, JsonRequestBehavior.AllowGet);
 
-            return Json(new { Title = "Test", Content = "Some content" }, JsonRequestBehavior.AllowGet);
+            return Json(car, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetByEniro()
+        {
+             
+            var result = new EniroService().GetEniro("57.709245", "11.970791", "2000", "hotell");
+
+            return Json(result,JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Crime()

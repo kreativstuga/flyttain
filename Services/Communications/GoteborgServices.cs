@@ -14,7 +14,7 @@ namespace FlyttaIn.Services.Communications
         private const string API_KEY = "69aeda59-f7a9-4667-81fb-c6ad913f8eb9";
 
         public const string VASTTRAFIK_NAME_TO_COORD = "http://api.vasttrafik.se/bin/rest.exe/v1/location.name?authKey={0}&format=json&jsonpCallback=processJSON&input={1}";
-        public const string VASTTRAFIK_NAME_TO_COORD_NEARBY = "http://api.vasttrafik.se/bin/rest.exe/v1/location.nearbystops?authKey={0}&format=json&jsonpCallback=processJSON&originCoordLat={1}&originCoordLong={2}&maxNo={3}";
+        public const string VASTTRAFIK_NAME_TO_COORD_NEARBY_STOPS = "http://api.vasttrafik.se/bin/rest.exe/v1/location.nearbystops?authKey={0}&format=json&jsonpCallback=processJSON&originCoordLat={1}&originCoordLong={2}&maxNo={3}";
 
         public const string VASTTRAFIK_TRIP = "http://api.vasttrafik.se/bin/rest.exe/v1/trip?authKey={0}&format=json&jsonpCallback=processJSON&date={1}&time={2}&originId={3}&originCoordLat={4}&originCoordLong={5}&destId={6}&destCoordLat={7}&destCoordLong={8}";
         public const string VASTTRAFIK_API_KEY = "e39042b8-db1a-46a9-ba81-2ae8893aa393";
@@ -61,11 +61,27 @@ namespace FlyttaIn.Services.Communications
             IList<JToken> results = googleSearch["LocationList"]["StopLocation"].Children().ToList();
 
 
-
             return results;
         }
 
-        public static IList<JToken> GetGBGLocationToNearbyCoord(string url, string api, string originLat, string originLong, int maxNoRows = 10)
+        public IList<JToken> GetGBGStopsByCoord(string latitude, string longitude , int maxNoRows = 10)
+        {
+
+
+            var newUrl = String.Format(VASTTRAFIK_NAME_TO_COORD_NEARBY_STOPS, VASTTRAFIK_API_KEY, longitude, latitude, maxNoRows.ToString());
+            var res = Helper.CreateHttpGet(newUrl, Helper.ContentType.Json);
+
+            //clean response
+            res = res.Replace("processJSON(", "");
+            res = res.Replace(");", "");
+            JObject googleSearch = JObject.Parse(res);
+            // get JSON result objects into a list
+            IList<JToken> results = googleSearch["LocationList"]["StopLocation"].Children().ToList();
+            return results;
+        }
+
+        //delete?
+        private static IList<JToken> GetGBGLocationToNearbyCoord(string url, string api, string originLat, string originLong, int maxNoRows = 10)
         {
             var newUrl = string.Format(url, api, originLat, originLong, maxNoRows.ToString());
             var res = Helper.CreateHttpGet(newUrl, Helper.ContentType.Json);
