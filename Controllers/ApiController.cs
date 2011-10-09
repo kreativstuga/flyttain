@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FlyttaIn.Services;
+using FlyttaIn.Services.Carpool;
 using FlyttaIn.Services.Communications;
 
 namespace FlyttaIn.Controllers
@@ -32,6 +33,34 @@ namespace FlyttaIn.Controllers
             
             //return Json(new { SourceName = sourceName, Title = "Test", Content = "Some content" }, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult MyLocal()
+        {
+            var s = new GoteborgServices();
+            var test = s.GetGBGLocationToCoord("Tredje Långgatan 13B");
+
+            //var stops = new Communications().GetStops(latitude, longitude);
+
+            //return Json(stops, JsonRequestBehavior.AllowGet);
+            
+            return Json(new { Title = "Test", Content = "Some content" }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CarPools()
+        {
+            //var test = new GoteborgServices().GetGBGLocationToCoord("Tredje Långgatan 13B");
+
+            var car = new Carpool().GetNearest(57,11);
+            
+
+            //var stops = new Communications().GetStops(latitude, longitude);
+
+            //return Json(stops, JsonRequestBehavior.AllowGet);
+
+            return Json(new { Title = "Test", Content = "Some content" }, JsonRequestBehavior.AllowGet);
+        }
+
+        
 
     }
 }
