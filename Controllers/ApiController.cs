@@ -44,7 +44,7 @@ namespace FlyttaIn.Controllers
 
         public JsonResult GetParkingCommuter(string longitude, string latitude)
         {
-            var result = new GoteborgServices().GetParkingCommuter(latitude, longitude, "1000");
+            var result = new GoteborgServices().GetParkingHandicap(latitude, longitude, "1000");
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -63,10 +63,10 @@ namespace FlyttaIn.Controllers
             return Json(car, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetByEniro()
+        public JsonResult GetByEniro(string longitude, string latitude)
         {
              
-            var result = new EniroService().GetEniro("57.709245", "11.970791", "2000", "hotell");
+            var result = new EniroService().GetEniro(latitude, longitude, "2000", "");
 
             return Json(result,JsonRequestBehavior.AllowGet);
         }
