@@ -4,12 +4,14 @@ using System.IO;
 using System.Web;
 using System.Xml;
 using System.Linq;
+using FlyttaIn.Models;
 
 namespace FlyttaIn.Services.Carpool
 {
     public class Carpool
     {
-        public Dictionary<string, string> GetNearest(float lat, float lon)
+        //public Dictionary<string, string> GetNearest(float lat, float lon)
+        public List<Location> GetNearest(float lat, float lon)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data") + "/bilpooler.xml");
@@ -21,12 +23,18 @@ namespace FlyttaIn.Services.Carpool
 
             string name = "";
 
+            var loc = new Location();
+            
+
             foreach(XmlNode pool in root.ChildNodes)
             {
                 var poolList = pool.Cast<XmlNode>().ToList();
                 var poolName = poolList.Where(x => x.Name == "name").Single().InnerText;
                 var poolLat = Convert.ToDouble(poolList.Where(x => x.Name == "lat").Single().Value);
                 var poolLon = Convert.ToDouble(poolList.Where(x => x.Name == "lon").Single().Value);
+
+                loc.Lat = poolLat.ToString();
+                loc.Long = poolLon.ToString();
 
                 double R = 6371;
  
@@ -43,12 +51,18 @@ namespace FlyttaIn.Services.Carpool
                 }
             }
 
-            Dictionary<string,string> dict = new Dictionary<string,string>();
+            /*Dictionary<string,string> dict = new Dictionary<string,string>();
 
             dict.Add("distance", maxDistance.ToString());
-            dict.Add("name", name);
+            dict.Add("name", name);*/
 
-            return dict;
+            loc.Name = name;
+            loc.Distance = maxDistance.ToString();
+
+            var list = new List<Location>();
+            list.Add(loc);
+
+            return list;
         }
     }
 }

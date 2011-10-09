@@ -49,7 +49,7 @@ namespace FlyttaIn.Controllers
         }
 
 
-        public JsonResult CarPools()
+        public JsonResult CarPools(string longitude, string latitude)
         {
             //var test = new GoteborgServices().GetGBGLocationToCoord("Tredje Långgatan 13B");
 
@@ -66,7 +66,7 @@ namespace FlyttaIn.Controllers
         public JsonResult GetByEniro(string longitude, string latitude)
         {
              
-            var result = new EniroService().GetEniro(latitude, longitude, "2000", "");
+            var result = new EniroService().GetEniro(latitude, longitude, "2000", "bank");
 
             return Json(result,JsonRequestBehavior.AllowGet);
         }
