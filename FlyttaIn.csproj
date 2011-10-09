@@ -112,6 +112,7 @@
     <Compile Include="Services\Carpool\Carpool.cs" />
     <Compile Include="Services\Communications\Communications.cs" />
     <Compile Include="Services\Communications\CrimeServices.cs" />
+    <Compile Include="Services\Communications\EniroService.cs" />
     <Compile Include="Services\Communications\GoteborgServices.cs" />
     <Compile Include="Services\Communications\TraficInformationService.cs" />
     <Compile Include="Services\Helper.cs" />
