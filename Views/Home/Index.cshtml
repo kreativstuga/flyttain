@@ -49,7 +49,6 @@
         </div>
         
         <div class="wrap-btn">
-            @*<button id="search-btn" type="button">Hitta information</button>*@
             <input id="search-btn" value="Hitta information" type="button" />
         </div>
         </fieldset>
@@ -67,7 +66,7 @@
         <div id="summary">
             <div id="map_canvas" style="height:500px;"></div>
             <h2 class="visuallyhidden">Översikt</h2>
-            <div id="transportation-summary">
+            <!--<div id="transportation-summary">
                 <h3>Kommunikationer</h3>
                 <ul id="communication-list"></ul>
             </div>
@@ -79,26 +78,26 @@
             </div>
             <div id="service-summary">
                 <h3>Samhällsservice</h3>
-            </div>
+            </div>-->
         </div>
         <div id="transportation">
             <h2 class="visuallyhidden">Kommunikation</h2>
             
+            <h3>Närmaste hållplatser</h3>
             <ul id="stops-list"></ul>
 
-            <a href="#" class="link-to-map">Visa som karta</a>
         </div>
         <div id="environment">
             <h2 class="visuallyhidden">Luft &amp; miljö</h2>
-            <a href="#" class="link-to-map">Visa som karta</a>
+            
         </div>
         <div id="accessibility">
             <h2 class="visuallyhidden">Tillgänglighet</h2>
-            <a href="#" class="link-to-map">Visa som karta</a>
         </div>
         <div id="service">
             <h2 class="visuallyhidden">Samhällsservice</h2>
-            <a href="#" class="link-to-map">Visa som karta</a>
+            <h3>Bilpooler i din närhet</h3>
+            <ul id="pools-list"></ul>
         </div>
     </div>
 </div>
@@ -241,8 +240,7 @@
                         });
                     });
 
-                    getByEniro(location);
-
+                    getCarPools(location);
                 }
             }
         });
@@ -285,15 +283,23 @@
         });
     }
 
-    var getCarPools = function () {
+    var getCarPools = function (location) {
 
         $.ajax({
-            type:"GET",
-            url:"/api/getCarPool",
-            dataType:"json",
-            data:{},
-            success:function(response){
-                
+            type: "GET",
+            url: "/api/getCarPool",
+            dataType: "json",
+            data: location,
+            success: function (response) {
+
+                var html = "";
+                for (var i = 0; i < response.length; i++) {
+                    html += "<li>" + response[i].Name + " " + parseInt(response[i].Distance) / 10  + " m</li>";
+                }
+
+
+                $("#pools-list").html(html);
+
             }
         });
     }
@@ -310,13 +316,13 @@
         });
     }
 
-    var getCrimes = function () {
+    var getCrimes = function (location) {
         
         $.ajax({
             type: "GET",
             url:"/api/getCrimes",
             dataType: "json",
-            data: {},
+            data: location,
             success: function (response) {
             }
         });

@@ -14,5 +14,6 @@ namespace FlyttaIn.Models
         public string Identifier;
         public string Lat;
         public string Long;
+        public string Distance;
     }
 }
