@@ -69,6 +69,7 @@
             <h2 class="visuallyhidden">Översikt</h2>
             <div id="transportation-summary">
                 <h3>Kommunikationer</h3>
+                <ul id="communication-list"></ul>
             </div>
             <div id="environment-summary">
                 <h3>Luft &amp; miljö</h3>
@@ -83,6 +84,8 @@
         <div id="transportation">
             <h2 class="visuallyhidden">Kommunikation</h2>
             
+            <ul id="stops-list"></ul>
+
             <a href="#" class="link-to-map">Visa som karta</a>
         </div>
         <div id="environment">
@@ -189,39 +192,36 @@
     var loadAll = function () {
 
         //console.log("selected: " + selectedGeoLocation.address);
-//        var form = $("#start-form");
+        //        var form = $("#start-form");
 
-//        var boxes = form.find("input[type=text]");
-//        //console.log("boxes: " + boxes.length);
+        //        var boxes = form.find("input[type=text]");
+        //        //console.log("boxes: " + boxes.length);
 
         var searchBox = $("#address-1");
 
-
-        
-        var location = getCoords(searchBox.val());
+        getCoords(searchBox.val());
 
 
-        
-//        $('#map_canvas').gmap().bind('init', function () {
-//            $.getJSON('http://localhost:5944/api/getStops?longitude=11.9499555&latitude=57.6986837', function (data) {
-//                $.each(data.markers, function (i, m) {
-//                    $('#map_canvas').gmap('addMarker', { 'position': new google.maps.LatLng(m.lat, m.lng), 'bounds': true });
-//                });
-//            });
-//        });
-        
+
+        //        $('#map_canvas').gmap().bind('init', function () {
+        //            $.getJSON('http://localhost:5944/api/getStops?longitude=11.9499555&latitude=57.6986837', function (data) {
+        //                $.each(data.markers, function (i, m) {
+        //                    $('#map_canvas').gmap('addMarker', { 'position': new google.maps.LatLng(m.lat, m.lng), 'bounds': true });
+        //                });
+        //            });
+        //        });
+
         //getByEniro();
         //getStops();
         //getCarPools();
         //getCrimes();
+
 
         return false;
     }
 
     var getCoords = function (place) {
 
-
-        
         $.ajax({
             url: 'http://maps.google.com/maps/geo?q=' + place + '&gl=SE&output=json&v=2&sensor=false&key=ABQIAAAAzAkrOIsv60fbtV-5UlnnJxRUrcFJRfPs1DYZSl5DdA7w5qtvARRv6HblVCIt_AgTSnG3PdPypHTBEQ',
             type: "GET",
@@ -240,7 +240,9 @@
                             $('#map_canvas').gmap('openInfoWindow', { 'content': 'Här har du tänkt att flytta!' }, this);
                         });
                     });
-                    
+
+                    getByEniro(location);
+
                 }
             }
         });
@@ -255,11 +257,30 @@
             data: location,
             success: function (response) {
                 var list = $.parseJSON(response);
+
+                var html = "";
+
                 $.each(list, function (i, m) {
-                    console.log(m.lat);
+
                     $('#map_canvas').gmap('addMarker', { 'content': m.name, 'position': new google.maps.LatLng(m.lat, m.lon), 'bounds': false, 'icon': 'content/icons/bus.png' });
+                    var track = m.track === undefined ? "" : m.track;
+                    html += "<li>" + m.name + " " + track + "</li>";
                 });
-                
+
+                $("#stops-list").html(html);
+
+            }
+        });
+    }
+
+    var getParking = function (location) {
+        $.ajax({
+            type: "GET",
+            url: "/api/getParkingCommuter",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+
             }
         });
     }
@@ -277,12 +298,12 @@
         });
     }
 
-    var getByEniro = function () {
+    var getByEniro = function (location) {
         $.ajax({
             type: "GET",
             url: "/api/getByEniro",
             dataType: "json",
-            data: {},
+            data: location,
             success: function (response) {
 
             }
