@@ -45,10 +45,10 @@
                     <option value="">Gymmet</option>
                 </select>
             </div>
-            <a href="#" class="add">Lägg till fler platser</a>
+            <a href="javascript:;" id="add-place-btn" class="add">Lägg till fler platser</a>
         </div>
         
-        <input type="submit" id="submit-1" value="Hitta information"  />
+        <button id="search-btn" type="button">Hitta information</button>
         </fieldset>
     </form>
     <div class="tabs">
@@ -98,4 +98,112 @@
         </div>		
     </div>		
 </div>
+
+<script type="text/javascript">
+
+    var selectedGeoLocation = {};
+    var fields = 2;
+    $(function () {
+
+        $("#search-btn").bind("click", loadAll);
+        $("#add-place-btn").bind("click", addPlace);
+        var searchBox = $("#address-1");
+
+        monkeyPatchAutocomplete();
+
+        bindAutoCompleteEvent(searchBox);
+
+    });
+
+    var bindAutoCompleteEvent = function (element) {
+
+        element.autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: 'http://maps.google.com/maps/geo?q=' + element.val() + '&gl=SE&output=json&v=2&sensor=false&key=ABQIAAAAzAkrOIsv60fbtV-5UlnnJxRUrcFJRfPs1DYZSl5DdA7w5qtvARRv6HblVCIt_AgTSnG3PdPypHTBEQ',
+                    type: "GET",
+                    dataType: "jsonp",
+                    cache: false,
+                    success: function (data) {
+
+                        if (parseInt(data.Status.code) === 200) {
+                            var regEx = new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + $.ui.autocomplete.escapeRegex(request.term) + ")(?![^<>]*>)(?![^&;]+;)", "gi");
+
+                            response($.map(data.Placemark, function (item) {
+
+                                return {
+                                    address: item.address,
+                                    regEx: regEx
+                                };
+                            }));
+                        }
+                    }
+                });
+            },
+            minLength: 5,
+            select: function (e, ui) {
+
+                element.val(ui.item.address);
+                selectedGeoLocation = ui.item;
+
+            }
+        });
+
+    }
+
+    var monkeyPatchAutocomplete = function () {
+        $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+
+            var address = item.address.replace(item.regEx, "<strong>$1</strong>");
+
+            return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + address + "</a>")
+                    .appendTo(ul);
+
+        };
+    };
+
+    var addPlace = function () {
+        //TODO add stuff
+        var wrapper = $("#to-address");
+
+        fields++;
+        var html = "<label>address " + fields + "</label>";
+        html += "<input type='text' placeholder='Skriv in adress..' id='address-" + fields + "' name='address-" + fields + "'/>";
+
+        wrapper.append(html);
+
+    }
+
+    var loadAll = function () {
+
+        //console.log("selected: " + selectedGeoLocation.address);
+        var form = $("#start-form");
+
+        var boxes = form.find("input[type=text]");
+        console.log("boxes: " + boxes.length);
+
+        getCarPools();
+
+        return false;
+    }
+
+    var getCarPools = function () {
+
+        $.ajax({
+            type:"GET",
+            url:"/api/getCarPool",
+            dataType:"json",
+            data:{},
+            success:function(response){
+                
+                
+            }
+        });
+    }
+
+
+
+</script>
 

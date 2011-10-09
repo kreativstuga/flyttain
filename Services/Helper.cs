@@ -53,7 +53,8 @@ namespace FlyttaIn.Services
         public enum ContentType
         {
             UrlEncoded,
-            Json
+            Json,
+            XML
         }
 
         /// <summary>
