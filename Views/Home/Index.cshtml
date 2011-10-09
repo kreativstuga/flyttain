@@ -235,8 +235,8 @@
 
                     getStops(location);
 
-                    $('#map_canvas').gmap({ 'zoom': 10 }).bind('init', function (ev, map) {
-                        $('#map_canvas').gmap('addMarker', { 'position': '' + location.latitude + ',' + location.longitude, 'bounds': true }).click(function () {
+                    $('#map_canvas').gmap({ 'zoom': 4 }).bind('init', function (ev, map) {
+                        $('#map_canvas').gmap('addMarker', { 'position': '' + location.longitude + ',' + location.latitude, 'bounds': true }).click(function () {
                             $('#map_canvas').gmap('openInfoWindow', { 'content': 'Här har du tänkt att flytta!' }, this);
                         });
                     });
