@@ -25,7 +25,7 @@
         <div id="start-address">
             <div class="text">
                 <label for="address-1">Hit vill jag flytta</label>
-                <input type="text" placeholder="Skriv in adress.." id="address-1" name="address-1" />
+                <input type="text" placeholder="Skriv in adress.." value="tredje långgatan 13B Göteborg" id="address-1" name="address-1" />
             </div>
         </div>
         </fieldset>
@@ -65,6 +65,7 @@
             </ul>
         @*</div>*@
         <div id="summary">
+            <div id="map_canvas" style="height:500px;"></div>
             <h2 class="visuallyhidden">Översikt</h2>
             <div id="transportation-summary">
                 <h3>Kommunikationer</h3>
@@ -81,6 +82,7 @@
         </div>
         <div id="transportation">
             <h2 class="visuallyhidden">Kommunikation</h2>
+            
             <a href="#" class="link-to-map">Visa som karta</a>
         </div>
         <div id="environment">
@@ -113,6 +115,14 @@
         //bindAutoCompleteEvent(searchBox);
 
         $(".tabs").tabs();
+
+//        $('#map_canvas').gmap().bind('init', function () {
+//            $.getJSON('http://jquery-ui-map.googlecode.com/svn/trunk/demos/json.json', function (data) {
+//                $.each(data.markers, function (i, m) {
+//                    $('#map_canvas').gmap('addMarker', { 'position': new google.maps.LatLng(m.lat, m.lng), 'bounds': true });
+//                });
+//            });
+//        });
     });
 
     var bindAutoCompleteEvent = function (element) {
@@ -179,15 +189,27 @@
     var loadAll = function () {
 
         //console.log("selected: " + selectedGeoLocation.address);
-        var form = $("#start-form");
+//        var form = $("#start-form");
 
-        var boxes = form.find("input[type=text]");
-        console.log("boxes: " + boxes.length);
+//        var boxes = form.find("input[type=text]");
+//        //console.log("boxes: " + boxes.length);
 
         var searchBox = $("#address-1");
 
+
+        
         var location = getCoords(searchBox.val());
 
+
+        
+//        $('#map_canvas').gmap().bind('init', function () {
+//            $.getJSON('http://localhost:5944/api/getStops?longitude=11.9499555&latitude=57.6986837', function (data) {
+//                $.each(data.markers, function (i, m) {
+//                    $('#map_canvas').gmap('addMarker', { 'position': new google.maps.LatLng(m.lat, m.lng), 'bounds': true });
+//                });
+//            });
+//        });
+        
         //getByEniro();
         //getStops();
         //getCarPools();
@@ -198,6 +220,8 @@
 
     var getCoords = function (place) {
 
+
+        
         $.ajax({
             url: 'http://maps.google.com/maps/geo?q=' + place + '&gl=SE&output=json&v=2&sensor=false&key=ABQIAAAAzAkrOIsv60fbtV-5UlnnJxRUrcFJRfPs1DYZSl5DdA7w5qtvARRv6HblVCIt_AgTSnG3PdPypHTBEQ',
             type: "GET",
@@ -210,6 +234,13 @@
                     var location = { longitude: cords[0], latitude: cords[1] };
 
                     getStops(location);
+
+                    $('#map_canvas').gmap().bind('init', function (ev, map) {
+                        $('#map_canvas').gmap('addMarker', { 'position': '' + location.latitude + ',' + location.longitude, 'bounds': true }).click(function () {
+                            $('#map_canvas').gmap('openInfoWindow', { 'content': 'Här har du tänkt att flytta!' }, this);
+                        });
+                    });
+                    
                 }
             }
         });
@@ -223,6 +254,12 @@
             dataType: "json",
             data: location,
             success: function (response) {
+                var list = $.parseJSON(response);
+                $.each(list, function (i, m) {
+                    console.log(m.lat);
+                    $('#map_canvas').gmap('addMarker', { 'content': m.name, 'position': new google.maps.LatLng(m.lat, m.lon), 'bounds': false, 'icon': 'content/icons/bus.png' });
+                });
+                
             }
         });
     }
