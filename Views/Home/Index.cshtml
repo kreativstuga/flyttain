@@ -122,61 +122,53 @@
         $("#add-place-btn").bind("click", addPlace);
         var searchBox = $("#address-1");
 
+        //Broken auto complete
         //monkeyPatchAutocomplete();
-
         //bindAutoCompleteEvent(searchBox);
 
         $(".tabs").tabs();
-
-//        $('#map_canvas').gmap().bind('init', function () {
-//            $.getJSON('http://jquery-ui-map.googlecode.com/svn/trunk/demos/json.json', function (data) {
-//                $.each(data.markers, function (i, m) {
-//                    $('#map_canvas').gmap('addMarker', { 'position': new google.maps.LatLng(m.lat, m.lng), 'bounds': true });
-//                });
-//            });
-        //        });
 
         $(".tabs").hide();
         
     });
 
-    var bindAutoCompleteEvent = function (element) {
+    var bindAutoCompleteEvent = function(element) {
 
         element.autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: 'http://maps.google.com/maps/geo?q=' + element.val() + '&gl=SE&output=json&v=2&sensor=false&key=ABQIAAAAzAkrOIsv60fbtV-5UlnnJxRUrcFJRfPs1DYZSl5DdA7w5qtvARRv6HblVCIt_AgTSnG3PdPypHTBEQ',
-                    type: "GET",
-                    dataType: "jsonp",
-                    cache: false,
-                    success: function (data) {
-                        
-                        if (parseInt(data.Status.code) === 200) {
-                            var regEx = new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + $.ui.autocomplete.escapeRegex(request.term) + ")(?![^<>]*>)(?![^&;]+;)", "gi");
+                source: function(request, response) {
+                    $.ajax({
+                            url: 'http://maps.google.com/maps/geo?q=' + element.val() + '&gl=SE&output=json&v=2&sensor=false&key=ABQIAAAAzAkrOIsv60fbtV-5UlnnJxRUrcFJRfPs1DYZSl5DdA7w5qtvARRv6HblVCIt_AgTSnG3PdPypHTBEQ',
+                            type: "GET",
+                            dataType: "jsonp",
+                            cache: false,
+                            success: function(data) {
 
-                            response($.map(data.Placemark, function (item) {
+                                if (parseInt(data.Status.code) === 200) {
+                                    var regEx = new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + $.ui.autocomplete.escapeRegex(request.term) + ")(?![^<>]*>)(?![^&;]+;)", "gi");
 
-                                return {
-                                    address: item.address,
-                                    regEx: regEx
-                                };
-                            }));
-                        }
-                        //$(".tabs").css("visibility", "visible");
-                        
-                    }
-                });
-            },
-            minLength: 5,
-            select: function (e, ui) {
+                                    response($.map(data.Placemark, function(item) {
 
-                element.val(ui.item.address);
-                selectedGeoLocation = ui.item;
+                                        return {
+                                            address: item.address,
+                                            regEx: regEx
+                                        };
+                                    }));
+                                }
+                                //$(".tabs").css("visibility", "visible");
 
-            }
-        });
+                            }
+                        });
+                },
+                minLength: 5,
+                select: function(e, ui) {
 
-    }
+                    element.val(ui.item.address);
+                    selectedGeoLocation = ui.item;
+
+                }
+            });
+
+    };
 
     var monkeyPatchAutocomplete = function () {
         $.ui.autocomplete.prototype._renderItem = function (ul, item) {
@@ -191,7 +183,7 @@
         };
     };
 
-    var addPlace = function () {
+    var addPlace = function() {
         //TODO add stuff
         var wrapper = $("#to-address");
 
@@ -201,147 +193,126 @@
 
         wrapper.append(html);
 
-    }
+    };
 
-    var loadAll = function () {
-
-        //console.log("selected: " + selectedGeoLocation.address);
-        //        var form = $("#start-form");
-
-        //        var boxes = form.find("input[type=text]");
-        //        //console.log("boxes: " + boxes.length);
+    var loadAll = function() {
 
         var searchBox = $("#address-1");
 
         getCoords(searchBox.val());
 
-
-
-        //        $('#map_canvas').gmap().bind('init', function () {
-        //            $.getJSON('http://localhost:5944/api/getStops?longitude=11.9499555&latitude=57.6986837', function (data) {
-        //                $.each(data.markers, function (i, m) {
-        //                    $('#map_canvas').gmap('addMarker', { 'position': new google.maps.LatLng(m.lat, m.lng), 'bounds': true });
-        //                });
-        //            });
-        //        });
-
-        //getByEniro();
-        //getStops();
-        //getCarPools();
-        //getCrimes();
-
         $(".tabs").show();
         return false;
-    }
+    };
 
-    var getCoords = function (place) {
+    var getCoords = function(place) {
 
         $.ajax({
-            url: 'http://maps.google.com/maps/geo?q=' + place + '&gl=SE&output=json&v=2&sensor=false&key=ABQIAAAAfZKndNhX8TcS6tKBdilVMRSXnk5OYAgQkyjTE1RT2DxVv7ETexTmOoVW1VoZoRxBs7SdcDmuEwcFbg',
-            type: "GET",
-            dataType: "jsonp",
-            cache: false,
-            success: function (data) {
+                url: 'http://maps.google.com/maps/geo?q=' + place + '&gl=SE&output=json&v=2&sensor=false&key=ABQIAAAAfZKndNhX8TcS6tKBdilVMRSXnk5OYAgQkyjTE1RT2DxVv7ETexTmOoVW1VoZoRxBs7SdcDmuEwcFbg',
+                type: "GET",
+                dataType: "jsonp",
+                cache: false,
+                success: function(data) {
 
-                if (parseInt(data.Status.code) === 200) {
-                    var cords = data.Placemark[0].Point.coordinates;
-                    var location = { longitude: cords[0], latitude: cords[1] };
+                    if (parseInt(data.Status.code) === 200) {
+                        var cords = data.Placemark[0].Point.coordinates;
+                        var location = { longitude: cords[0], latitude: cords[1] };
 
-                    getStops(location);
+                        getStops(location);
 
-                    $('#map_canvas').gmap().bind('init', function (ev, map) {
-                        $('#map_canvas').gmap('addMarker', { 'position': '' + location.latitude + ',' + location.longitude, 'bounds': true }).click(function () {
-                            $('#map_canvas').gmap('openInfoWindow', { 'content': 'Här har du tänkt att flytta!' }, this);
+                        $('#map_canvas').gmap().bind('init', function(ev, map) {
+                            $('#map_canvas').gmap('addMarker', { 'position': '' + location.latitude + ',' + location.longitude, 'bounds': true }).click(function() {
+                                $('#map_canvas').gmap('openInfoWindow', { 'content': 'Här har du tänkt att flytta!' }, this);
+                            });
                         });
+
+                        getCarPools(location);
+                    }
+                }
+            });
+
+    };
+
+    var getStops = function(location) {
+        $.ajax({
+                type: "GET",
+                url: "/api/getStops",
+                dataType: "json",
+                data: location,
+                success: function(response) {
+                    var list = $.parseJSON(response);
+
+                    var html = "";
+
+                    $.each(list, function(i, m) {
+
+                        $('#map_canvas').gmap('addMarker', { 'content': m.name, 'position': new google.maps.LatLng(m.lat, m.lon), 'bounds': false, 'icon': 'content/icons/bus.png' });
+                        var track = m.track === undefined ? "" : m.track;
+                        html += "<li>" + m.name + " " + track + "</li>";
                     });
 
-                    getCarPools(location);
+                    $("#stops-list").html(html);
+
                 }
-            }
-        });
+            });
+    };
 
-    }
-
-    var getStops = function (location) {
+    var getParking = function(location) {
         $.ajax({
-            type: "GET",
-            url: "/api/getStops",
-            dataType: "json",
-            data: location,
-            success: function (response) {
-                var list = $.parseJSON(response);
+                type: "GET",
+                url: "/api/getParkingCommuter",
+                dataType: "json",
+                data: { },
+                success: function(response) {
 
-                var html = "";
-
-                $.each(list, function (i, m) {
-
-                    $('#map_canvas').gmap('addMarker', { 'content': m.name, 'position': new google.maps.LatLng(m.lat, m.lon), 'bounds': false, 'icon': 'content/icons/bus.png' });
-                    var track = m.track === undefined ? "" : m.track;
-                    html += "<li>" + m.name + " " + track + "</li>";
-                });
-
-                $("#stops-list").html(html);
-
-            }
-        });
-    }
-
-    var getParking = function (location) {
-        $.ajax({
-            type: "GET",
-            url: "/api/getParkingCommuter",
-            dataType: "json",
-            data: {},
-            success: function (response) {
-
-            }
-        });
-    }
-
-    var getCarPools = function (location) {
-
-        $.ajax({
-            type: "GET",
-            url: "/api/getCarPool",
-            dataType: "json",
-            data: location,
-            success: function (response) {
-
-                var html = "";
-                for (var i = 0; i < response.length; i++) {
-                    html += "<li>" + response[i].Name + " " + parseInt(response[i].Distance) / 10  + " m</li>";
                 }
+            });
+    };
 
+    var getCarPools = function(location) {
 
-                $("#pools-list").html(html);
-
-            }
-        });
-    }
-
-    var getByEniro = function (location) {
         $.ajax({
-            type: "GET",
-            url: "/api/getByEniro",
-            dataType: "json",
-            data: location,
-            success: function (response) {
+                type: "GET",
+                url: "/api/getCarPool",
+                dataType: "json",
+                data: location,
+                success: function(response) {
 
-            }
-        });
-    }
+                    var html = "";
+                    for (var i = 0; i < response.length; i++) {
+                        html += "<li>" + response[i].Name + " " + parseInt(response[i].Distance) / 10 + " m</li>";
+                    }
 
-    var getCrimes = function (location) {
-        
+
+                    $("#pools-list").html(html);
+
+                }
+            });
+    };
+
+    var getByEniro = function(location) {
         $.ajax({
-            type: "GET",
-            url:"/api/getCrimes",
-            dataType: "json",
-            data: location,
-            success: function (response) {
-            }
-        });
-    }
+                type: "GET",
+                url: "/api/getByEniro",
+                dataType: "json",
+                data: location,
+                success: function(response) {
+
+                }
+            });
+    };
+
+    var getCrimes = function(location) {
+
+        $.ajax({
+                type: "GET",
+                url: "/api/getCrimes",
+                dataType: "json",
+                data: location,
+                success: function(response) {
+                }
+            });
+    };
 
 </script>
 

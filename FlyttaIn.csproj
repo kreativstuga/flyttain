@@ -127,6 +127,7 @@
     <Content Include="apple-touch-icon-precomposed.png" />
     <Content Include="apple-touch-icon.png" />
     <Content Include="App_Data\bilpooler.xml" />
+    <Content Include="App_Data\vard.xml" />
     <Content Include="Content\icons\bus.png" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
