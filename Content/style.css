@@ -38,11 +38,11 @@ body, button, input, select, textarea { font-family: sans-serif; color: #222; }
 /* 
  * These selection declarations have to be separate
  * No text-shadow: twitter.com/miketaylr/status/12228805301
- * Also: hot pink!
+ * Also: hot <strike>pink</strike> baby blue!
  */
 
-::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
-::selection { background: #fe57a1; color: #fff; text-shadow: none; }
+::-moz-selection { background: #00a0aa; color: #fff; text-shadow: none; }
+::selection { background: #00a0aa; color: #fff; text-shadow: none; }
 
 
 /* =============================================================================
@@ -286,7 +286,7 @@ ul#menu {
 }
 
     #login a {
-        background-color: #d3dce0;
+        /*background-color: #d3dce0;*/
         margin-left: 10px;
         margin-right: 3px;
         padding: 2px 3px;
@@ -350,7 +350,7 @@ fieldset {
             border: 1px solid #7ac0da;
         }
     
-    fieldset input[type="submit"] {
+    fieldset input[type="submit"], fieldset input[type="button"] {
         background-color: #d3dce0;
         border: solid 1px #787878;
         cursor: pointer;
@@ -358,6 +358,10 @@ fieldset {
         font-weight: 600;
         padding: 7px;
     }
+    
+.wrap-btn {
+    padding: 10px 0;
+}
 
 /* ajax login/registration dialog */
 .modal-popup {
