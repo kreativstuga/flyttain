@@ -89,13 +89,23 @@
         </div>
         <div id="environment">
             <h2 class="visuallyhidden">Luft &amp; miljö</h2>
-            
+            <h3>Luft & miljö</h3>
+            <p>Koldioxidutsläpp: Låg<br />
+            Trafikbuller: Låg<br />
+            Vattennivå: normal<br />
+            Försurning: ingen tillgänglig data</p>
         </div>
         <div id="accessibility">
             <h2 class="visuallyhidden">Tillgänglighet</h2>
+            <h3>Tillgänglighet</h3>
+            <p>Låggolvs- buss/spårvagn: Ja<br />
+            Närmaste hållplats flexlinjen: Korsvägen</p>
         </div>
         <div id="service">
             <h2 class="visuallyhidden">Samhällsservice</h2>
+            <h3>Samhällsservice</h3>
+            <p>Tandvård: 2min bort (200m)<br />
+            Bibliotek: 1 min bort (100m)
             <h3>Bilpooler i din närhet</h3>
             <ul id="pools-list"></ul>
         </div>
@@ -124,7 +134,10 @@
 //                    $('#map_canvas').gmap('addMarker', { 'position': new google.maps.LatLng(m.lat, m.lng), 'bounds': true });
 //                });
 //            });
-//        });
+        //        });
+
+        $(".tabs").hide();
+        
     });
 
     var bindAutoCompleteEvent = function (element) {
@@ -137,7 +150,7 @@
                     dataType: "jsonp",
                     cache: false,
                     success: function (data) {
-
+                        
                         if (parseInt(data.Status.code) === 200) {
                             var regEx = new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + $.ui.autocomplete.escapeRegex(request.term) + ")(?![^<>]*>)(?![^&;]+;)", "gi");
 
@@ -149,6 +162,8 @@
                                 };
                             }));
                         }
+                        //$(".tabs").css("visibility", "visible");
+                        
                     }
                 });
             },
@@ -215,7 +230,7 @@
         //getCarPools();
         //getCrimes();
 
-
+        $(".tabs").show();
         return false;
     }
 
@@ -234,8 +249,8 @@
 
                     getStops(location);
 
-                    $('#map_canvas').gmap({ 'zoom': 4 }).bind('init', function (ev, map) {
-                        $('#map_canvas').gmap('addMarker', { 'position': '' + location.longitude + ',' + location.latitude, 'bounds': true }).click(function () {
+                    $('#map_canvas').gmap().bind('init', function (ev, map) {
+                        $('#map_canvas').gmap('addMarker', { 'position': '' + location.latitude + ',' + location.longitude, 'bounds': true }).click(function () {
                             $('#map_canvas').gmap('openInfoWindow', { 'content': 'Här har du tänkt att flytta!' }, this);
                         });
                     });

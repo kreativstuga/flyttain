@@ -31,7 +31,7 @@ audio[controls], canvas, video { display: inline-block; *display: inline; *zoom:
 
 html { font-size: 100%; overflow-y: scroll; -webkit-overflow-scrolling: touch; -webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
 
-body { margin: 0; font-size: 13px; line-height: 1.231; background-color: #ccc; }
+body { margin: 0; font-size: 13px; line-height: 1.231; background-color: #eee; }
 
 body, button, input, select, textarea { font-family: sans-serif; color: #222; }
 
@@ -204,10 +204,13 @@ table { border-collapse: collapse; border-spacing: 0; }
 
 
 #container {
-    width: 940px;
-    margin: 0 auto;
+    margin:0 auto;
+    width:940px;
+    -moz-box-shadow:0px 0px 7px #ccc;
+    -webkit-box-shadow:0px 0px 7px #ccc;
+    box-shadow:0px 0px 7px #ccc;
+    padding:0;
     background-color: #fff;
-    padding: 0;
 }
 
 #main {
@@ -280,9 +283,9 @@ ul#menu {
 #login {
     display: block;
     font-size: .85em;
-    margin-top: 20px;
     margin-right: 20px;
     text-align: right;
+    margin-top: -5px;
 }
 
     #login a {
@@ -357,10 +360,11 @@ fieldset {
         font-size: 1.2em;
         font-weight: 600;
         padding: 7px;
+        border-radius:6px;
     }
     
 .wrap-btn {
-    padding: 10px 0;
+    padding: 0 0 15px;
 }
 
 /* ajax login/registration dialog */
@@ -402,7 +406,12 @@ fieldset {
 .error {
     color: #e80c4d;
 }
-
+#start-form .text {
+    margin:0 0 10px;
+}
+#start-form span {
+    color:#666;
+}
 /* styles for validation helpers */
 .field-validation-error {
     color: #e80c4d;
@@ -429,8 +438,10 @@ input[type="password"].input-validation-error {
 }
 
 footer {
-    padding: 10px;
-    background-color: #ccc;
+    padding: 10px 10px 20px;
+    background-color: #eee;
+    margin:0 auto;
+    width:900px;
 }
 
 /* =============================================================================
