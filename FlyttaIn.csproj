@@ -109,6 +109,9 @@
     <Compile Include="Models\TrafficInformation.cs" />
     <Compile Include="Models\Weather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Care\Care.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Services\Carpool\Carpool.cs" />
     <Compile Include="Services\Communications\Communications.cs" />
     <Compile Include="Services\Communications\CrimeServices.cs" />
@@ -210,9 +213,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\Care\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
