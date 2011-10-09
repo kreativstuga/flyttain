@@ -39,16 +39,15 @@ namespace FlyttaIn.Controllers
         {
             var result = new GoteborgServices().GetGBGStopsByCoord(latitude, longitude,10);
 
-            //string fulhack = "";
-            //foreach (var item in result)
-            //{
-            //    fulhack += item.ToString();
-            //}
-
-            //return JsonResult(fulhack, JsonRequestBehavior.AllowGet);
-
             return Json(JsonConvert.SerializeObject(result), JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetParkingCommuter(string longitude, string latitude)
+        {
+            var result = new GoteborgServices().GetParkingCommuter(latitude, longitude, "1000");
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         public JsonResult CarPools()
         {

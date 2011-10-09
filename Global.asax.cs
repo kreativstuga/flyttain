@@ -21,6 +21,11 @@ namespace FlyttaIn
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute(
+                "GetParkingCommuter",
+                "api/getParkingCommuter",
+                new { controller = "Api", action = "GetParkingCommuter" }
+            );
 
             routes.MapRoute(
                 "GetByEniro",
