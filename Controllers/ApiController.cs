@@ -36,12 +36,15 @@ namespace FlyttaIn.Controllers
 
         public JsonResult GetNearbyStops(string longitude,string latitude)
         {
-            var s = new GoteborgServices();
+            var result = new GoteborgServices().GetGBGStopsByCoord(latitude, longitude,10);
 
-            //12.0181732, 57.7208731
-            var test = s.GetGBGStopsByCoord(latitude, longitude,10);
+            string fulhack = "";
+            foreach (var item in result)
+            {
+                fulhack += item.ToString();
+            }
 
-            return Json(new { Title = "Test", Content = "Some content" }, JsonRequestBehavior.AllowGet);
+            return JsonResult(fulhack, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult CarPools()

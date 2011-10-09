@@ -64,11 +64,10 @@ namespace FlyttaIn.Services.Communications
             return results;
         }
 
-        public IList<JToken> GetGBGStopsByCoord(string latitude, string longitude , int maxNoRows = 10)
+        public IList<JToken> GetGBGStopsByCoordOld(string latitude, string longitude , int maxNoRows = 10)
         {
 
-
-            var newUrl = String.Format(VASTTRAFIK_NAME_TO_COORD_NEARBY_STOPS, VASTTRAFIK_API_KEY, longitude, latitude, maxNoRows.ToString());
+            var newUrl = String.Format(VASTTRAFIK_NAME_TO_COORD_NEARBY_STOPS, VASTTRAFIK_API_KEY, latitude, longitude, maxNoRows.ToString());
             var res = Helper.CreateHttpGet(newUrl, Helper.ContentType.Json);
 
             //clean response
