@@ -74,23 +74,23 @@ namespace FlyttaIn.Services.Communications
         }
 
 
-        public IList<JToken> GetGBGLocationToCoord(string location)
-        {
-            string newUrl = string.Format(VASTTRAFIK_NAME_TO_COORD, VASTTRAFIK_API_KEY, location);
-            var res = Helper.CreateHttpGet(newUrl, Helper.ContentType.Json);
-            res = res.Replace("processJSON(", "");
-            res = res.Replace(");", "");
+        //public IList<JToken> GetGBGLocationToCoord(string location)
+        //{
+        //    string newUrl = string.Format(VASTTRAFIK_NAME_TO_COORD, VASTTRAFIK_API_KEY, location);
+        //    var res = Helper.CreateHttpGet(newUrl, Helper.ContentType.Json);
+        //    res = res.Replace("processJSON(", "");
+        //    res = res.Replace(");", "");
 
-            JObject googleSearch = JObject.Parse(res);
+        //    JObject googleSearch = JObject.Parse(res);
 
-            // get JSON result objects into a list
-            IList<JToken> results = googleSearch["LocationList"]["StopLocation"].Children().ToList();
+        //    // get JSON result objects into a list
+        //    IList<JToken> results = googleSearch["LocationList"]["StopLocation"].Children().ToList();
 
 
-            return results;
-        }
+        //    return results;
+        //}
 
-        public IList<JToken> GetGBGStopsByCoordOld(string latitude, string longitude , int maxNoRows = 10)
+        public IList<JToken> GetGBGStopsByCoord(string latitude, string longitude , int maxNoRows = 10)
         {
 
             var newUrl = String.Format(VASTTRAFIK_NAME_TO_COORD_NEARBY_STOPS, VASTTRAFIK_API_KEY, latitude, longitude, maxNoRows.ToString());

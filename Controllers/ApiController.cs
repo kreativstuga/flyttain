@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using FlyttaIn.Services;
 using FlyttaIn.Services.Carpool;
 using FlyttaIn.Services.Communications;
+using Newtonsoft.Json;
 
 namespace FlyttaIn.Controllers
 {
@@ -38,13 +39,15 @@ namespace FlyttaIn.Controllers
         {
             var result = new GoteborgServices().GetGBGStopsByCoord(latitude, longitude,10);
 
-            string fulhack = "";
-            foreach (var item in result)
-            {
-                fulhack += item.ToString();
-            }
+            //string fulhack = "";
+            //foreach (var item in result)
+            //{
+            //    fulhack += item.ToString();
+            //}
 
-            return JsonResult(fulhack, JsonRequestBehavior.AllowGet);
+            //return JsonResult(fulhack, JsonRequestBehavior.AllowGet);
+
+            return Json(JsonConvert.SerializeObject(result), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult CarPools()
