@@ -223,7 +223,7 @@
     var getCoords = function (place) {
 
         $.ajax({
-            url: 'http://maps.google.com/maps/geo?q=' + place + '&gl=SE&output=json&v=2&sensor=false&key=ABQIAAAAzAkrOIsv60fbtV-5UlnnJxRUrcFJRfPs1DYZSl5DdA7w5qtvARRv6HblVCIt_AgTSnG3PdPypHTBEQ',
+            url: 'http://maps.google.com/maps/geo?q=' + place + '&gl=SE&output=json&v=2&sensor=false&key=ABQIAAAAfZKndNhX8TcS6tKBdilVMRSXnk5OYAgQkyjTE1RT2DxVv7ETexTmOoVW1VoZoRxBs7SdcDmuEwcFbg',
             type: "GET",
             dataType: "jsonp",
             cache: false,
@@ -235,7 +235,7 @@
 
                     getStops(location);
 
-                    $('#map_canvas').gmap().bind('init', function (ev, map) {
+                    $('#map_canvas').gmap({ 'zoom': 10 }).bind('init', function (ev, map) {
                         $('#map_canvas').gmap('addMarker', { 'position': '' + location.latitude + ',' + location.longitude, 'bounds': true }).click(function () {
                             $('#map_canvas').gmap('openInfoWindow', { 'content': 'Här har du tänkt att flytta!' }, this);
                         });

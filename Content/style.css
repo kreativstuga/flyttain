@@ -430,6 +430,7 @@ input[type="password"].input-validation-error {
 
 footer {
     padding: 10px;
+    background-color: #ccc;
 }
 
 /* =============================================================================
